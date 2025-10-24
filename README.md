@@ -63,6 +63,53 @@ Si alguno de estos supuestos es incorrecto, indícalo y ajusto el plan.
 4. Documentar con OpenAPI o Postman.
 5. Crear repo remoto en GitHub y configurar CI (GitHub Actions) para tests.
 
+Nota: he implementado la plantilla en Python/Django según la guía de la evaluación (proyecto `inventario_escolar`, app `equipos`). A continuación los pasos específicos para ejecutar la versión Django que ya está en este repositorio.
+
+## Ejecución local (Django)
+
+1. Crear y activar el entorno virtual (PowerShell):
+
+```powershell
+cd "C:\Users\Ricardo\evaluacion backend"
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+2. Instalar dependencias:
+
+```powershell
+pip install -r requirements.txt
+```
+
+3. Ejecutar migraciones y crear superusuario:
+
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+4. Correr servidor:
+
+```powershell
+python manage.py runserver
+```
+
+Endpoints principales añadidos:
+- Admin: `/admin/` — gestionar modelo `Equipo` usando Django Admin (list_display ya configurado).
+- API filtrada (JSON): `/equipos/` — acepta parámetros de query para filtrar (por ejemplo `?categoria=Proyector&estado=Operativo`).
+
+Ejemplos de filtrado en `/equipos/`:
+- `?categoria=Proyector` — filtra por categoría exacta.
+- `?estado__icontains=oper` — filtro con icontains (ejemplo: operador parcial).
+- Rango de fecha: `?fecha_ingreso_after=2025-01-01&fecha_ingreso_before=2025-12-31` (soporta DateFromToRangeFilter vía parámetros apropiados).
+
+Si quieres, puedo añadir:
+- Endpoints REST completos con Django REST Framework (serializers, CRUD y tests de integración).
+- Documentación OpenAPI/Swagger.
+- CI (GitHub Actions) que ejecute `python -m pip install -r requirements.txt` y `python manage.py test`.
+
+
 ## Instrucciones para crear el repositorio remoto en GitHub (opciones)
 
 Opción A — Usando la CLI de GitHub (`gh`):
