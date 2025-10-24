@@ -1,17 +1,21 @@
-from django.http import JsonResponse
-from django.views import View
+from django.http import JsonResponse, HttpRequest
 from .models import Equipo
 from .filters import EquipoFilter
 
 
-def equipos_list(request):
-    """Return a JSON list of equipos filtered by query params.
-
-    Supported params: categoria, estado, ubicacion, fecha_ingreso_after, fecha_ingreso_before
-    Uses django-filter for flexible filtering via query params.
+def lista_equipos(request: HttpRequest) -> JsonResponse:
+    """Devuelve un listado JSON de equipos filtrado por parámetros de consulta.
     """
-    qs = Equipo.objects.all().order_by('id')
-    f = EquipoFilter(request.GET, queryset=qs)
-    qs_filtered = f.qs
-    data = list(qs_filtered.values('id', 'nombre', 'categoria', 'estado', 'fecha_ingreso', 'ubicacion'))
-    return JsonResponse({'count': len(data), 'results': data})
+    # Queryset base ordenado por id
+    queryset = Equipo.objects.all().order_by('id')
+
+    # Aplicar filtros usando django-filter
+    filtro = EquipoFilter(request.GET, queryset=queryset)
+
+    # Serializar campos seleccionados a una lista de diccionarios
+    resultados = list(
+        filtro.qs.values('id', 'nombre', 'categoria',
+                         'estado', 'ubicacion', 'fecha_ingreso')
+    )
+
+    return JsonResponse({'cantidad': len(resultados), 'resultados': resultados})

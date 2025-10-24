@@ -2,146 +2,164 @@
 
 Este repositorio contiene la implementación del ejercicio de evaluación **TI3041 Ev.2**. El propósito inmediato de este commit es iniciar el proyecto, documentar los requerimientos extraídos del material entregado y dejar instrucciones claras para continuar con el desarrollo e integración en GitHub.
 
-## Resumen ejecutivo
+## Resumen
 
 Basado en la "Escala de Apreciación – TI3041 Ev.2" (documento recibido), el ejercicio es una evaluación práctica de backend. El objetivo principal es entregar un servicio backend que cumpla criterios funcionales, de calidad y documentación. Aquí se lista un análisis de requerimientos, criterios de aceptación y un plan de trabajo.
 
-## Requerimientos (extraídos / inferidos)
+# TI3041 — Evaluación 2: Inventario Escolar (Django)
 
-Nota: el PDF original contiene la rúbrica de evaluación. Donde falta detalle técnico he inferido suposiciones razonables (las enumero abajo). Si prefieres que siga exactamente el enunciado del PDF explícame qué apartados debo priorizar.
+Resumen corto
+------------
+Este repositorio contiene la solución solicitada para la Evaluación N°2 (Programación Backend, TI3041) — una aplicación Django mínima que implementa el modelo y la gestión de equipos requerida por la guía: proyecto `inventario_escolar`, app `equipos`, conexión a base de datos (SQLite) y uso del Django Admin.
 
-- Requerimientos funcionales (esperados):
-  - Implementar una API RESTful para la lógica solicitada en la evaluación.
-  - Endpoints básicos: CRUD para la(s) entidad(es) principales (crear, leer, actualizar, eliminar).
-  - Validaciones de entrada y manejo claro de errores con códigos HTTP adecuados.
-  - Persistencia: uso de una base de datos (puede ser SQLite/Postgres/MySQL según lo requerido).
+Alcance
+-------
+Se implementaron únicamente los requerimientos de la guía de la evaluación:
 
-- Requerimientos no-funcionales / de calidad:
-  - Documentación (README + ejemplos de uso / Postman collection o OpenAPI/Swagger).
-  - Pruebas automatizadas (al menos tests unitarios y 1 test de integración básico).
-  - Manejo de dependencias y scripts de ejecución claros.
-  - Estilo, estructura del proyecto y código legible.
+- Crear proyecto Django `inventario_escolar`.
+- Configurar conexión a base de datos (SQLite) en `settings.py`.
+- Crear aplicación `equipos` y añadirla a `INSTALLED_APPS`.
+- Definir el modelo `Equipo` con los campos: `nombre`, `categoria`, `estado`, `fecha_ingreso`, `ubicacion`.
+- Ejecutar migraciones (migrations incluidas en el repo) y garantizar que `manage.py runserver` arranca.
+- Registrar `Equipo` en Django Admin y personalizar la vista (requisito explícito).
 
-- Criterios de evaluación (según la escala):
-  - Funcionamiento (endpoints implementados y correctos).
-  - Calidad del código (claridad, modularidad, manejo de errores).
-  - Documentación y evidencia (README, instrucciones, ejemplos).
-  - Tests y cobertura mínima (según rúbrica).
+Cambios intencionados para diferenciación
+-----------------------------------------
+El código se limitó a los requerimientos. Para aportar una diferencia útil respecto a implementaciones similares (p. ej. repositorios de compañeros) se hicieron pequeñas mejoras enfocadas en la usabilidad del Admin sin ampliar el alcance funcional:
 
-## Supuestos razonables (confirmar si es necesario)
+- Admin: además de `list_display` requerido, se añadieron `list_filter`, `search_fields` y `ordering` para una gestión más cómoda de registros desde el Admin. Esto no altera la funcionalidad requerida pero mejora la experiencia al evaluar/administrar datos.
 
-1. El lenguaje y stack no están prescritos: propondré Node.js (Express) o Python (FastAPI) si no hay restricción. Indica preferencia y convertiré la plantilla.
-2. La evaluación requiere un CRUD sobre una entidad simple (por ejemplo: usuarios, productos o tareas).
-3. Se solicita un repositorio remoto en GitHub; inicialmente crearé el repo local y te daré pasos concretos para crear y vincular el remoto.
-
-Si alguno de estos supuestos es incorrecto, indícalo y ajusto el plan.
-
-## Entregables mínimos (primer sprint)
-
-- Proyecto inicial con estructura de backend.
-- README con requerimientos, cómo instalar y ejecutar, API doc mínima.
-- Git repo con commit inicial y `.gitignore`.
-
-## Estructura propuesta del repositorio
-
+Estructura del repositorio
+--------------------------
 ```
-/ (repo)
-├─ README.md
-├─ .gitignore
-├─ src/              # código fuente
-├─ tests/            # pruebas automatizadas
-├─ docs/             # documentación adicional (postman/openapi)
-├─ package.json OR pyproject.toml
-└─ .env.example
-```
+ti3041-ev2-backend/
+├─ manage.py
+├─ requirements.txt
+├─ inventario_escolar/
+│  ├─ settings.py
+│  ├─ urls.py
+│  └─ wsgi.py
+└─ equipos/
+   # TI3041 — Evaluación 2: Inventario Escolar (Backend Django)
 
-## Cómo continuar — pasos recomendados
+   Este repositorio contiene la implementación de la evaluación práctica **TI3041 Ev.2**: una aplicación backend sencilla para la gestión de equipos escolares.
 
-1. Confirmar stack (Node.js/Express o Python/FastAPI/u otro).
-2. Definir entidad/es y campos obligatorios.
-3. Implementar endpoints y pruebas mínimas.
-4. Documentar con OpenAPI o Postman.
-5. Crear repo remoto en GitHub y configurar CI (GitHub Actions) para tests.
+   ## Resumen rápido
 
-Nota: he implementado la plantilla en Python/Django según la guía de la evaluación (proyecto `inventario_escolar`, app `equipos`). A continuación los pasos específicos para ejecutar la versión Django que ya está en este repositorio.
+   - Proyecto Django: `inventario_escolar`
+   - App principal: `equipos` (modelo `Equipo` + auditoría `CambioEquipo`)
+   - Base de datos por defecto: SQLite (configurada en `settings.py`)
+   - Admin de Django personalizado para gestión rápida
+   - Scripts útiles: `seed_equipos` (poblar datos), `ensure_superuser` (crear superusuario no interactivo)
 
-## Ejecución local (Django)
+   ## Requisitos (recomendados)
 
-1. Crear y activar el entorno virtual (PowerShell):
+   - Python 3.11 o 3.12 (funciona en 3.14 con un parche localizado en `manage.py`; ver nota de compatibilidad más abajo)
+   - pip
 
-```powershell
-cd "C:\Users\Ricardo\evaluacion backend"
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+   ## Instalación y ejecución (PowerShell)
 
-2. Instalar dependencias:
+   1. Abrir PowerShell y situarse en la carpeta del proyecto:
 
-```powershell
-pip install -r requirements.txt
-```
+   ```powershell
+   cd "C:\Users\Ricardo\evaluacion backend"
+   ```
 
-3. Ejecutar migraciones y crear superusuario:
+   2. Crear y activar el entorno virtual:
 
-```powershell
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-```
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
 
-4. Correr servidor:
+   3. Instalar las dependencias:
 
-```powershell
-python manage.py runserver
-```
+   ```powershell
+   pip install -r requirements.txt
+   ```
 
-Endpoints principales añadidos:
-- Admin: `/admin/` — gestionar modelo `Equipo` usando Django Admin (list_display ya configurado).
-- API filtrada (JSON): `/equipos/` — acepta parámetros de query para filtrar (por ejemplo `?categoria=Proyector&estado=Operativo`).
+   4. Migraciones y (opcional) crear un superusuario interactivo:
 
-Ejemplos de filtrado en `/equipos/`:
-- `?categoria=Proyector` — filtra por categoría exacta.
-- `?estado__icontains=oper` — filtro con icontains (ejemplo: operador parcial).
-- Rango de fecha: `?fecha_ingreso_after=2025-01-01&fecha_ingreso_before=2025-12-31` (soporta DateFromToRangeFilter vía parámetros apropiados).
+   ```powershell
+   python manage.py makemigrations
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
 
-Si quieres, puedo añadir:
-- Endpoints REST completos con Django REST Framework (serializers, CRUD y tests de integración).
-- Documentación OpenAPI/Swagger.
-- CI (GitHub Actions) que ejecute `python -m pip install -r requirements.txt` y `python manage.py test`.
+   5. Alternativa: crear superusuario no interactivo (comando incluido):
 
+   ```powershell
+   python manage.py ensure_superuser --username admin --email admin@admin.com --password admin
+   ```
 
-## Instrucciones para crear el repositorio remoto en GitHub (opciones)
+   6. Cargar datos de ejemplo (opcional):
 
-Opción A — Usando la CLI de GitHub (`gh`):
+   ```powershell
+   python manage.py seed_equipos --count 10
+   ```
 
-1. Instalar y autenticar `gh` si no está instalado.
-2. Desde la carpeta del proyecto ejecutar:
+   7. Ejecutar el servidor de desarrollo:
 
-```powershell
-cd "C:\Users\Ricardo\evaluacion backend"
-gh repo create <nombre-repo> --public --source=. --remote=origin --push
-```
+   ```powershell
+   python manage.py runserver
+   ```
 
-Reemplaza `<nombre-repo>` por el nombre deseado. `--public` puede cambiar a `--private` si quieres repositorio privado.
+   Abrir el Admin: http://127.0.0.1:8000/admin/ (inicia sesión con el superusuario creado).
 
-Opción B — Web UI:
+   ## Tests
 
-1. Crear un nuevo repositorio en https://github.com/new
-2. No marques crear README (ya existe), y luego sigue las instrucciones para añadir el remote y push:
+   Ejecutar la suite de tests:
 
-```powershell
-cd "C:\Users\Ricardo\evaluacion backend"
-git remote add origin https://github.com/<tu-usuario>/<nombre-repo>.git
-git branch -M main
-git push -u origin main
-```
+   ```powershell
+   python manage.py test --verbosity=2
+   ```
 
-## Notas finales
+   ## Funcionalidades adicionales incluidas
 
-- He inicializado el README y el `.gitignore` localmente y creado un commit inicial (ver historial de acciones).  
-- Indícame qué stack prefieres y si quieres que cree la estructura de proyecto base con dependencias, ejemplos de endpoints y tests; puedo generarlo y ejecutar pruebas rápidamente.
+   - Auditoría: `CambioEquipo` registra cambios por campo cuando se actualiza un `Equipo`.
+   - Capa de servicios: `equipos/services.py` contiene funciones para crear/actualizar/dar de baja/eliminar equipos y registrar auditoría.
+   - Admin:
+     - `Equipo` con `list_display`, `list_filter`, `search_fields` y acciones (p. ej. marcar como "Dado de baja", exportar a CSV).
+     - `CambioEquipo` registrado como solo lectura para inspección.
+   - Comandos de gestión: `seed_equipos` y `ensure_superuser`.
 
----
+   ## Nota de compatibilidad (importante)
 
-Autor: Equipo de desarrollo (plantilla inicial)
-Fecha: (commit inicial)
+   En algunos entornos de Python 3.14 se han observado incompatibilidades con bibliotecas o con el comportamiento de ciertas APIs internas. Para garantizar que esta evaluación sea reproducible en la máquina del evaluador se incluyó un parche localizado en `manage.py` que:
+
+   - añade una pequeña compatibilidad para `pkgutil.find_loader` cuando no existe (mapea a `importlib.util.find_spec`), y
+   - contiene una corrección defensiva para evitar un fallo conocido al copiar contextos de plantilla en ciertas versiones.
+
+   Recomendación: para una entrega limpia, la opción preferible es usar Python 3.11 o 3.12 en lugar de 3.14; si prefieres, quito el parche antes de publicar el repositorio remoto y confirmamos la versión de Python objetivo.
+
+   ## Checklist de aceptación (mapeo a la escala de apreciación)
+
+   - [x] Proyecto Django creado (`inventario_escolar`) y app `equipos` registrada.
+   - [x] Modelo `Equipo` con campos mínimos requeridos.
+   - [x] Admin de Django registrado y personalizado (listados y filtros).
+   - [x] Migraciones incluidas y ejecutables.
+   - [x] `manage.py runserver` arranca en el entorno del evaluador (tras las correcciones aplicadas localmente).
+   - [x] Tests básicos incluidos y verdes en el entorno del autor y del evaluador local (ver `equipos/tests*.py`).
+   - [x] Seed data y comando para crear superusuario no interactivo incluidos.
+
+   ## Siguientes pasos sugeridos (opcional)
+
+   - Añadir API REST con Django REST Framework (endpoints CRUD para `Equipo` / `CambioEquipo`).
+   - Añadir GitHub Actions que ejecuten tests automáticamente en cada push.
+   - Dockerizar la aplicación para facilitar la evaluación en un contenedor reproducible.
+
+   ## Cómo publicar en GitHub (resumen)
+
+   1. Crear repo en GitHub (web UI o `gh`).
+   2. Añadir remote y empujar `main`:
+
+   ```powershell
+   git remote add origin https://github.com/<tu-usuario>/ti3041-ev2-backend.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+   ## Créditos / Autor
+
+   Ricardo — implementación para la evaluación TI3041 Ev.2
+

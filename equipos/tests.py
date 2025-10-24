@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Equipo
+from equipos.models import Equipo
 from datetime import date
 
 
@@ -10,6 +10,7 @@ class EquipoModelTest(TestCase):
             categoria='Proyector',
             estado='Operativo',
             fecha_ingreso=date.today(),
-            ubicacion='Sala 201'
+            ubicacion='Sala 201',
         )
+        
         self.assertEqual(str(e), 'Proyector Epson')
