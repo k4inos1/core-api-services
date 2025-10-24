@@ -1,0 +1,24 @@
+# Common ignores for backend projects
+# Node
+node_modules/
+dist/
+npm-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Environment
+.env
+.env.local
+.env.*.local
