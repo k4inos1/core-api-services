@@ -132,33 +132,6 @@ ti3041-ev2-backend/
 
    Recomendación: para una entrega limpia, la opción preferible es usar Python 3.11 o 3.12 en lugar de 3.14; si prefieres, quito el parche antes de publicar el repositorio remoto y confirmamos la versión de Python objetivo.
 
-   ## Checklist de aceptación (mapeo a la escala de apreciación)
-
-   - [x] Proyecto Django creado (`inventario_escolar`) y app `equipos` registrada.
-   - [x] Modelo `Equipo` con campos mínimos requeridos.
-   - [x] Admin de Django registrado y personalizado (listados y filtros).
-   - [x] Migraciones incluidas y ejecutables.
-   - [x] `manage.py runserver` arranca en el entorno del evaluador (tras las correcciones aplicadas localmente).
-   - [x] Tests básicos incluidos y verdes en el entorno del autor y del evaluador local (ver `equipos/tests*.py`).
-   - [x] Seed data y comando para crear superusuario no interactivo incluidos.
-
-   ## Siguientes pasos sugeridos (opcional)
-
-   - Añadir API REST con Django REST Framework (endpoints CRUD para `Equipo` / `CambioEquipo`).
-   - Añadir GitHub Actions que ejecuten tests automáticamente en cada push.
-   - Dockerizar la aplicación para facilitar la evaluación en un contenedor reproducible.
-
-   ## Cómo publicar en GitHub (resumen)
-
-   1. Crear repo en GitHub (web UI o `gh`).
-   2. Añadir remote y empujar `main`:
-
-   ```powershell
-   git remote add origin https://github.com/<tu-usuario>/ti3041-ev2-backend.git
-   git branch -M main
-   git push -u origin main
-   ```
-
    ## Créditos / Autor
 
    Ricardo — implementación para la evaluación TI3041 Ev.2
