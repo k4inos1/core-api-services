@@ -1,21 +1,15 @@
-from django.http import JsonResponse, HttpRequest
-from .models import Equipo
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from .filters import EquipoFilter
+from .models import Equipo
+from .serializers import EquipoSerializer
 
 
-def lista_equipos(request: HttpRequest) -> JsonResponse:
-    """Devuelve un listado JSON de equipos filtrado por parámetros de consulta.
-    """
-    # Queryset base ordenado por id
+@api_view(['GET'])
+def lista_equipos(request):
+    """Devuelve un listado JSON de equipos filtrado por parámetros de consulta."""
     queryset = Equipo.objects.all().order_by('id')
-
-    # Aplicar filtros usando django-filter
     filtro = EquipoFilter(request.GET, queryset=queryset)
-
-    # Serializar campos seleccionados a una lista de diccionarios
-    resultados = list(
-        filtro.qs.values('id', 'nombre', 'categoria',
-                         'estado', 'ubicacion', 'fecha_ingreso')
-    )
-
-    return JsonResponse({'cantidad': len(resultados), 'resultados': resultados})
+    serializer = EquipoSerializer(filtro.qs, many=True)
+    return Response({'cantidad': len(serializer.data), 'resultados': serializer.data})

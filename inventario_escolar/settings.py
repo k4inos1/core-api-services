@@ -20,8 +20,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'equipos',
+    'rest_framework',
     'django_filters',
+    'equipos',
+    'entregables',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +54,6 @@ TEMPLATES: List[Dict[str, Any]] = [
     },
 ]
 
-
 WSGI_APPLICATION = 'inventario_escolar.wsgi.application'
 
 DATABASES: Dict[str, Dict[str, Any]] = {
@@ -75,6 +77,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}
 
 LANGUAGE_CODE = 'es-CL'
 TIME_ZONE = 'America/Santiago'
