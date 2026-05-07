@@ -22,6 +22,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'equipos',
     'django_filters',
+    'rest_framework',
+    'entregables',
+    'api',
+    'k_ia',
 ]
 
 MIDDLEWARE = [
