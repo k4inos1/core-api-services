@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   lint:
     name: Linting & Type Check
