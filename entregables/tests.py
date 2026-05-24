@@ -7,6 +7,16 @@ from .models import Vehiculo
 
 
 class EntregablesApiTest(APITestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword',
+            role=User.Role.ADMIN
+        )
+        self.client.force_authenticate(user=self.user)
+
     def test_lista_vehiculos_serializa_recurso_portado(self):
         Vehiculo.objects.create(
             patente='ABCD12',

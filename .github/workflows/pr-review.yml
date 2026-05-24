@@ -37,6 +37,10 @@ jobs:
       - name: Run Black check
         run: black --check .
         continue-on-error: true
+      
+      - name: Run Mypy
+        run: mypy .
+        continue-on-error: true
 
   test:
     name: 🧪 Run Tests
@@ -53,10 +57,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest pytest-playwright pytest-django
+          playwright install chromium --with-deps
       
       - name: Run tests
-        run: pytest tests/ -v
+        run: pytest -v
         continue-on-error: true
 
   security-scan:

@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-_re1esy7r%f9us1=)ze(-0c=(a0320aoj4na7(20v(e9s43geo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list[str] = []
 
 
 # Application definition
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "core_users",
     "core_notifications",
     "core_audit",
+    "api",
+    "entregables",
 ]
 
 REST_FRAMEWORK = {
