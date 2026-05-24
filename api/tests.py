@@ -9,6 +9,16 @@ from .models import Equipo
 
 
 class ApiViewSetTest(APITestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword',
+            role=User.Role.ADMIN
+        )
+        self.client.force_authenticate(user=self.user)
+
     def test_lista_equipos_expuestos_por_api_portada(self):
         Equipo.objects.create(
             nombre='Bomba Principal',
