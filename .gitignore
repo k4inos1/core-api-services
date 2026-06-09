@@ -27,3 +27,10 @@ Escala de Apreciación – TI3041 Ev.2.pdf
 TI3041 - Ev2.pdf
 
 # --- IGNORE ---
+
+# Test artifacts
+test-results/
+playwright-report/
+coverage/
+htmlcov/
+reports/
